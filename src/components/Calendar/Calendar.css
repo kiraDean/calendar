@@ -1,0 +1,21 @@
+.Calendar {
+  text-align: center;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background-color: lightblue;
+  height:700px;
+  width: 100%;
+}
+.titleBox{
+  height: 100px;
+  background-color: LightSeaGreen;
+  width: 100%;
+
+
+
+
+}
+.daysBox {
+
+}

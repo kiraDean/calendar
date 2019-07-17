@@ -1,0 +1,10 @@
+.view {
+  text-align: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+.view button {
+  width: auto;
+  height: auto;
+  font-size: 1.5em;
+}

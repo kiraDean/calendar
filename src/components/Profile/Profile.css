@@ -1,0 +1,10 @@
+.profile {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: lightgreen;
+  font-size: 25px;
+  position: relative;
+  font-size: 3em;
+  height: auto;
+  text-align: center;
+}

@@ -1,0 +1,7 @@
+.myHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: #18BC9C;
+  border: 2px solid black;
+}

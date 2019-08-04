@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Calendar from './Calendar.js';
 import moment from 'moment';
-import "./UseCalendar.css";
+
+import Calendar from '../Calendar';
+
+import './UseCalendar.css';
 
 
 
@@ -28,13 +30,13 @@ class UseCalendar extends Component {
     };
     return (
       <div>
-        <div className="panel">
+
+        <div className="CalendarSpace">
+
+          <Calendar
+            onSelect={this.onSelect}
+            dayClasses={dayClasses} />
         </div>
-          <div className="CalendarSpace">
-            <Calendar onSelect={this.onSelect}
-            dayClasses={dayClasses}
-            startOfWeekIndex={1}/>
-          </div>
       </div>
     );
   }

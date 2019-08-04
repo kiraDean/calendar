@@ -1,0 +1,10 @@
+.home-panel {
+  max-width: 800px;
+  margin: 2rem auto 0 auto;
+  font-size: 2.5em;
+  border: 1px solid  black;
+}
+
+ .count-block {
+   color: #18BC9C;
+ }

@@ -1,10 +1,37 @@
-.profile {
+.profile-block {
+  width: 800px;
+  margin: 2rem auto 0 auto;
+  border: 1px solid  black;
+}
+
+.header-row {
   display: flex;
-  justify-content: space-evenly;
-  background-color: lightgreen;
-  font-size: 25px;
-  position: relative;
-  font-size: 3em;
-  height: auto;
-  text-align: center;
+  flex-flow: wrap;
+  padding: 0.35rem 0.65rem;
+  align-items: center;
+}
+/* check this out*/
+.header-col {
+ height: auto;
+ max-height: 4rem;
+ text-align: center;
+}
+.c2 {
+ display: flex;
+ justify-content: flex-end;
+ width: 20%;
+
+}
+
+.c1 {
+  display: flex;
+  justify-content: flex-start;
+  width: 80%;
+}
+.custom-header {
+  text-align: left;
+  max-width: 100%;
+  font-size: 1.1rem;
+  padding-right: 30px;
+  font-weight: bold;
 }

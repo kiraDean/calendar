@@ -1,15 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 
+import App from './components/App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import EventService from './services/EventService';
+import { EventServiceProvider } from './components/EventServiceContext';
 
+import store from './store';
 
+const eventService = new EventService();
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(
+ <Provider store={store}>
+   <EventServiceProvider value={eventService}>
+     <Router>
+       <App />
+     </Router>
+   </EventServiceProvider>
+ </Provider>,
+ document.getElementById('root')
+);

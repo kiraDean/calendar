@@ -3,15 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 
-import UseCalendar from './components/Calendar/UseCalendar'
-import Profile from './components/Profile/Profile'
-import Home from './components/Home/Home'
-import Navigation from './components/Navigation/Navigation'
+import UseCalendar from '../UseCalendar'
+import Profile from '../Profile'
+import Home from '../Home'
+import Navigation from '../Navigation'
 
 
 
 class App extends React.Component {
-  
+
   render() {
     return (
       <Router>
@@ -21,7 +21,7 @@ class App extends React.Component {
             <Route path="/" component={Home} exact />
             <Route path="/profile" component={Profile}/>
             <Route path="/calendar" component={UseCalendar}/>
-            <Route render ={() => <h2>Error: Path does not exist!!!111</h2>} />
+            <Route render ={() => <h2>Error: Path does not exist</h2>} />
           </Switch>
         </div>
       </Router>

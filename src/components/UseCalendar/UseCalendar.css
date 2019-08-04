@@ -12,45 +12,34 @@
   box-sizing: border-box;
 
 }
-tr {
-  display: flex;
-  justify-content: space-around;
-}
-tr.month-header {
-  justify-content: flex-start;
-}
-tr.month-header .nav {
-  width: auto;
-  margin: 10px;
-}
-tr.month-header .month-year {
-  margin: 10px;
-  width: 200px;
+
+.red {
+  background-color: #FF7A2F !important;
 }
 
-.Calendar th,
-.Calendar td {
+.Day {
     width: calc(100% / 7);
-    text-align: center;
 }
 
 
-th.DayOfWeek {
-  height: 20px;
-}
-th .month-year {
-  width: 200px;
-}
 .panel {
   background-color: #00CED1;
   height: 70px;
 }
-button {
-  padding: 0;
-  height: 20px;
-  width: 20px;
-  text-align: center;
+
+.weekend {
+  background-color: #bdfff2;
 }
+
+.green {
+  background-color: #18BC9C !important;
+}
+
+.week {
+  display: flex;
+  flex-direction: row;
+}
+
 
 button.today {
   width: auto;
@@ -61,9 +50,7 @@ button.today {
   height: 100px ;
   padding: 5px;
   text-align: left;
-  border: 1px solid gray;
-  box-sizing: border-box;
-  font-weight: bold;
+  margin-bottom: 0;
 }
 .Day-inner p {
   text-align: left;

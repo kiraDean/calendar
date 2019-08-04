@@ -1,4 +1,5 @@
 import React from 'react';
+import './Home.css';
 
 
 class Home extends React.Component {
@@ -6,8 +7,9 @@ class Home extends React.Component {
   render() {
 
     return(
-      <div>
-      Home
+      <div className="home-panel">
+        You have <strong className="count-block">X</strong> cases for today,<br />
+                 <strong className="count-block">Y</strong> this week
       </div>
     );
   }

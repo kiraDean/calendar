@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import moment from 'moment';
-import Day from './Day';
-//import DayOfWeek from './DayOfWeek';
-import Week from './Week';
+import { connect } from    'react-redux'
+
+import Day from '../Day';
+import CalendarHeader from '../CalendarHeader';
+import { withEventService } from '../Hoc';
+import { fetchEvents } from '../../actions';
+
+import './Calendar.css'
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
     let { date , month } = props;
 
-
     this.state = {
       date: date,
       month: month,
     };
-
-    this.previous = this.previous.bind(this);
-    this.next = this.next.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.todayButton = this.todayButton.bind(this);
-  }
+}
 
   componentWillMount() {
+
     moment.locale(this.props.locale);
 
     if (!!this.state.date) {
@@ -33,17 +32,21 @@ class Calendar extends Component {
     this.state.month.locale(this.props.locale);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    moment.locale(this.props.locale);
+   componentDidMount() {
+     this.props.fetchEvents();
+   }
 
-    if (!!nextState.date) {
-      nextState.date.locale(this.props.locale);
-    }
+componentWillUpdate(nextProps, nextState) {
+  moment.locale(this.props.locale);
 
-    nextState.month.locale(this.props.locale);
+  if (!!nextState.date) {
+    nextState.date.locale(this.props.locale);
   }
 
-  handleClick(date) { ///???
+  nextState.month.locale(this.props.locale);
+}
+
+  handleClick = (date) => {
     const flag = this.props.onSelect(date, this.state.date, this.state.month);
 
     if (flag === true) {
@@ -57,37 +60,33 @@ class Calendar extends Component {
     }
   }
 
-  previous() {
+  previous = () => {
     this.setState({
       month: moment(this.state.month).subtract(1, 'month'),
     });
   }
 
-  next() {
+  next = () => {
     this.setState({
       month: moment(this.state.month).add(1, 'month'),
     });
   }
-  todayButton() {
+
+  todayButton = () => {
     this.setState({
       month: moment(),
     })
   }
+
   render() {
-    const { startOfWeekIndex, dayOfWeekFormat } = this.props;
-
-    //const classes = ['Calendar', this.props.className].join(' ');     ///???
-
+    const { startOfWeekIndex, events} = this.props;
+    console.log(events);
     const today = moment();
 
-    /*const format = dayOfWeekFormat &&
-                    dayOfWeekFormat !== '' &&
-                    moment(today, dayOfWeekFormat).isValid() ? dayOfWeekFormat : 'dd'*/
+    const { date } = this.state;
+    const { month } = this.state;
 
-    const date = this.state.date;
-    const month = this.state.month;
-
-    const current = month ///???
+    const current = month
       .clone()
       .startOf('month')
       .day(startOfWeekIndex);
@@ -109,19 +108,15 @@ class Calendar extends Component {
     let days = [];
     let week = 1;
     let i = 1;
-    const daysOfWeek = [];
-    //const day = current.clone();
-/*    for (let j = 0; j < 7; j++) {
-      const dayOfWeekKey = 'dayOfWeek' + j;
-      daysOfWeek.push(<DayOfWeek key={dayOfWeekKey} date={day.clone()} format={format} />);
-      day.add(1, 'days');
-    }*/
 
     while (current.isBefore(end)) {
+
       let dayClasses = this.props.dayClasses(current);
+
       if (!current.isSame(month, 'month')) {
         dayClasses = dayClasses.concat(['other-month']);
       }
+
       let props = {
         date: current.clone(),
         selected: date,
@@ -130,79 +125,58 @@ class Calendar extends Component {
         classes: dayClasses,
         handleClick: this.handleClick,
         week: week,
+        events: events
       };
 
-      let children;
-
       days.push(
-        <Day key={i++} {...props}>
-          {children}
-        </Day>
+        <Day key={i++} {...props} />
       );
-      console.log(week)
+
       current.add(1, 'days');
+
       if (current.day() === startOfWeekIndex) {
-        let weekKey = 'week' + week++;
-        console.log(weekKey)
-        elements.push(<Week key={weekKey}>{days}</Week>);
+        elements.push(<div className="week" key={week}>{days}</div>);
+        week++;
         days = [];
-        console.log(days);
       }
     }
 
-    let nav;
-
-      nav = (
-        <tr className="month-header">
-          <th className="nav previous">
-            <button className="nav-inner" onClick={this.previous} type="button">
-              «
-            </button>
-          </th>
-          <th className="month-year">
-            <span className="month">{month.format('MMMM')}</span>{' '}
-            <span className="year">{month.format('YYYY')}</span>
-          </th>
-          <th className="nav next">
-            <button className="nav-inner" onClick={this.next} type="button">
-              »
-            </button>
-            <button className="today" onClick={this.todayButton} type="button">
-              Today
-            </button>
-          </th>
-        </tr>
-      );
-
     return (
-      <table className="Calendar">
-        <thead>{nav}</thead>
-        <thead>
-          <tr className="days-header">{daysOfWeek}</tr>
-        </thead>
-        <tbody>{elements}</tbody>
-      </table>
+      <div className="Calendar">
+        <CalendarHeader
+            previous={this.previous}
+            next={this.next}
+            todayButton={this.todayButton}
+            month={month} />
+        <div className="c-field">{elements}</div>
+      </div>
     );
   }
 }
+
 Calendar.defaultProps = {
   month: moment(),
   dayClasses: () => [],
-  useNav: true,
   locale: 'en',
-  startOfWeekIndex: 0,
-  dayOfWeekFormat: 'dddd',
-};
-Calendar.propTypes = {
-  onSelect: PropTypes.func.isRequired,
-  date: PropTypes.object,
-  month: PropTypes.object,
-  dayClasses: PropTypes.func,
-  useNav: PropTypes.bool,
-  locale: PropTypes.string,
-  startOfWeekIndex: PropTypes.number,
-  dayRenderer: PropTypes.func,
-  dayOfWeekFormat: PropTypes.string,
+  startOfWeekIndex: 1
 };
 
-export default Calendar;
+// Calendar.propTypes = {
+//   onSelect: PropTypes.func.isRequired,
+//   date: PropTypes.object,
+//   month: PropTypes.object,
+//   dayClasses: PropTypes.func,
+//   locale: PropTypes.string,
+//   startOfWeekIndex: PropTypes.number
+// };
+
+const mapStateToProps = ({events})=> {
+  return {events}
+}
+const mapDispatchToProps = (dispatch, { eventService }) => {
+  return {
+    fetchEvents: fetchEvents(eventService, dispatch)
+  };
+};
+
+export default withEventService()(connect(mapStateToProps,mapDispatchToProps)(Calendar))

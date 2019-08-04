@@ -9,49 +9,57 @@ class Day extends Component {
       selected,
       classes,
       handleClick,
-      children,
       week,
+      events
     } = this.props;
+    let title = '';
+    let time = '';
 
-    const classNames = ['Day'];
-    if (today.isSame(date, 'day')) {
-      classNames.push('today');
-    }
+    const classNames = ['Day card'];
     if (selected && selected.isSame(date, 'day')) {
-      classNames.push('selected');
+      classNames.push('text-white bg-primary');
+    } else if (today.isSame(date, 'day')) {
+      classNames.push('text-white border-primary green');
+    } else {
+      classNames.push('border-primary');
     }
+
+    if (events) {
+      let currentEvent = events.find(event => event.date === date.toISOString())
+      if  (currentEvent) {
+        title = currentEvent.title;
+        time = currentEvent.time
+        classNames.push('red');
+      }
+    }
+
 
     let format = '';
-    console.log(this.props.week)
-    if(this.props.week===1) {
+    if(week===1) {
        format = 'dddd, D';
     } else {
        format ='D'
     }
 
-    let body;
-    if (!!children) {
-      body = children;
-    } else {
-      body = (
+    let body = (
         <div
-          className="Day-inner"
-          onClick={() => handleClick(date)}
-        >
+          className=" Day-inner"
+          onClick={() => handleClick(date)} >
           <p>{date.format(format)}</p>
+          <p>{time}</p>
+          <p>{title}</p>
 
         </div>
       );
-    }
+
 
     return (
-      <td
+      <span
         className={[...classNames, ...classes].join(' ')}
         data-date={date.toISOString()}
-        data-day={date.format('D')}
-      >
+        data-day={date.format('D')} >
         {body}
-      </td>
+      </span>
     );
   }
 }
@@ -61,7 +69,6 @@ Day.propTypes = {
   date: PropTypes.object.isRequired,
   today: PropTypes.object.isRequired,
   selected: PropTypes.object,
-  children: PropTypes.node,
 };
 
 export default Day;
